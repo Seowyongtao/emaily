@@ -22,22 +22,38 @@ passport.use(new GoogleStrategy({
     clientSecret: keys.googleClientSecret,
     callbackURL: "/auth/google/callback",
     proxy:true
-  }, (accessToken,refreshToken,profile,done) => {
+  },
+  async (accessToken,refreshToken,profile,done) => {
 
     //"then" is something about "promise", can check it later
-    User.findOne({googleId:profile.id}).then(existingUser => {
+    // User.findOne({googleId:profile.id}).then(existingUser => {
+    //
+    //   if (existingUser){
+    //     //skip it
+    //     done(null,existingUser);
+    //   }else{
+    //     //create new user in the database
+    //     new User({googleId : profile.id})
+    //       .save()
+    //       .then(user => done(null,user));
+    //   }
+    // })
 
-      if (existingUser){
-        //skip it
-        done(null,existingUser);
-      }else{
-        //create new user in the database
-        new User({googleId : profile.id})
-          .save()
-          .then(user => done(null,user));
-      }
-    })
+    //refactor using async
+    const existingUser = await User.findOne({googleId:profile.id})
+
+    if (existingUser){
+      //skip it
+      done(null,existingUser);
+    }else{
+      //create new user in the database
+      const user = await new User({googleId : profile.id}).save()
+      done(null,user);
+    }
+
 
   })
+
+
 
 );
