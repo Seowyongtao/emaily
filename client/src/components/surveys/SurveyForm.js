@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import SurveyField from "./SurveyField";
 import validateEmails from "../../utils/validateEmails";
 import formFields from "./formFields";
+import "./SurveyForm.css"
 
 class SurveyForm extends Component{
 
@@ -23,8 +24,8 @@ class SurveyForm extends Component{
         <form onSubmit={this.props.handleSubmit(this.props.onSurveySubmit)}>
           {this.renderFields()}
 
-          <Link to="/surveys" className="red btn-flat left white-text">Cancel</Link>
-          <button type="submit" className="teal btn-flat right white-text">
+          <Link to="/surveys" className="red btn-flat left white-text cancel-button">Cancel</Link>
+          <button type="submit" className="teal btn-flat right white-text next-button">
             Next
             <i className="material-icons right">done</i>
           </button>
